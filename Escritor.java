@@ -11,91 +11,71 @@
 
 
 public class Escritor{
-    private static final String explicacionCaja = "" +
-        " Estructura de los arreglos 'caracteresCaja':\n" +
-        " Primeros 2: Caracteres internos horizontal y vertical\n" +
-        "            respectivamente\n" +
-        " Del 3 al 6: Esquinas superior izquierda,\n" +
-        "             superior derecha, inferior izquierda\n" +
-        "             e inferior derecha respectivamente\n" +
-        "Del 7 al 10: Caracteres laterales\n" +
-        "             lateral izquierdo, lateral derecho\n" +
-        "             lateral superior y lateral inferior\n" +
-        "             respectivamente\n" +
-        "11avo: Caracter de cruz central\n";
-    private static final char[] caracteresCaja1 = {
-	'-','|',
-	'+','+','+','+',
-	'+','+','+','+',
-	'+'
-    };
-    private static final char[] caracteresCaja2 = {
-	'\u2550','\u2551',
-	'\u2554','\u2557','\u255a','\u255d',
-	'\u2560','\u2563','\u2566','\u2569',
-	'\u256b'
-    };
-    private static final char[] caracteresCaja3 = {
-	'\u2500','\u2502',
-	'\u250c','\u2510','\u2514','\u2518',
-	'\u251c','\u2524','\u252c','\u2534',
-	'\u253c'
-    };
-    private static final char[] caracteresCaja4 = {
-	'\u2501','\u2503',
-	'\u250f','\u2513','\u2517','\u251b',
-	'\u2523','\u252b','\u2533','\u253b',
-	'\u254b'
-    };
-    private static final char[] caracteresCaja5 = {
-	'\u2504','\u2506',
-	'+','+','+','+',
-	'+','+','+','+',
-	'+'
-    };
-    private static final char[] caracteresCaja6 = {
-	'\u2505','\u2507',
-	'+','+','+','+',
-	'+','+','+','+',
-	'+'
-    };
-    private static final char[] caracteresCaja7 = {
-	'\u254c','\u254e',
-	'+','+','+','+',
-	'\u251c','\u2524','\u252c','\u2534',
-	'+'
-    };
-    private static final char[] caracteresCaja8 = {
-	'\u254d','\u254f',
-	'+','+','+','+',
-	'+','+','+','+',
-	'+'
-    };
-    private static final char[] caracteresCaja9 = {
-	'\u2500','\u2502',
-	'\u256d','\u256e','\u2570','\u256f',
-	'\u251c','\u2524','\u252c','\u2534',
-	'\u253c'
-    };
+    public static final int ANCHO_PANTALLA_NORMAL = 80;
+    public static final int ALTO_PANTALLA_NORMAL = 24;
 
-    private char[] caracteresCaja;
+    public Caja cj;
 
     public Escritor(){
-	caracteresCaja = caracteresCaja1;
+	cj = new Caja();
     }
     
-    public Escritor( int numeroCaja){
-	setCaracteresCaja( numeroCaja );
+    public Escritor( int numeroCaja ){
+	try{
+	    cj = new Caja( numeroCaja );
+	}catch(Exception e){
+	    e.getMessage();
+	}
     }
 
     public void escribir(Object o){
 	System.out.print(o);
     }
 
-    public static void escribirLinea(Object o){
+    public void escribirLinea(Object o){
 	System.out.println(o);
     }
 
+    public String dibujaCaja(String[] cadenas,int[] tamanos){
+	String[][] c;
+	String res = "";
+	int numCadenas = cadenas.length;
+	int numRenglones = 0;
+
+	c = new String[numCadenas][];
+	int ren = 0;
+	for(int i = 0; i < numCadenas; ++i){
+	    c[i] = cadenas[i].split("\n");
+	    ren = c[i].length;
+	    if( ren > numRenglones ){
+		numRenglones = ren;
+	    }
+	}
+	
+	int i;
+	res += cj.getPos(2);
+	for(i = 0; i+1 < numCadenas; ++i){
+	    res += repetir(cj.getPos(0),tamanos[i]+2) + cj.getPos(8);
+	}
+	res += repetir(cj.getPos(0),tamanos[i]+2) + cj.getPos(3) + "\n";
+	i = 0;
+	while( i < numRenglones ){
+	    res += cj.getPos(1);
+	    for(int j = 0; j < numCadenas; ++j){
+		if( j<c.length && i< c[j].length &&c[j][i] != null ){
+		    res += " " +c[j][i] + " " + cj.getPos(1);
+		}
+	    }
+	    res += '\n';
+	    ++i;
+	}
+	res += cj.getPos(4);
+	for(i = 0; i+1 < numCadenas; ++i){
+	    res += repetir(cj.getPos(0),tamanos[i]+2) + cj.getPos(9);
+	}
+	res += repetir(cj.getPos(0),tamanos[i]+2) + cj.getPos(5) + "\n";
+	return res;
+    }
     public static void escribeEnCaja(){
     }
     
@@ -111,7 +91,7 @@ public class Escritor{
 	String caracterRepetido = "";
 	int n = (int) veces;
 	for( int i = 0; i < n; ++i ){
-	    caracterRepetido += c;
+	    caracterRepetido += "" +c;
 	}
 
 	return caracterRepetido;
@@ -126,100 +106,62 @@ public class Escritor{
 	return cadenaRepetida;
     }
 
-    public void verCaracteresCaja(){
+    public static void main(String[] args){
+	Escritor s = new Escritor(2);
+
 	System.out.println(
-		"" +
-		caracteresCaja[2] +
-		caracteresCaja[0] +
-		caracteresCaja[8] +
-		caracteresCaja[0] +
-		caracteresCaja[3] +
-		"\n" +
-		caracteresCaja[1] + 
-		" " +
-		caracteresCaja[1] +
-		" " +
-		caracteresCaja[1] +
-		"\n" +
-		caracteresCaja[6] +
-		caracteresCaja[0] +
-		caracteresCaja[10] +
-		caracteresCaja[0] +
-		caracteresCaja[7] + 
-		"\n" +
-		caracteresCaja[1] +
-		" " +
-		caracteresCaja[1] +
-		" " +
-		caracteresCaja[1] +
-		"\n" +
-		caracteresCaja[4] +
-		caracteresCaja[0] +
-		caracteresCaja[9] +
-		caracteresCaja[0] +
-		caracteresCaja[5]
+	    "" +
+	    s.cj.getPos(2) +
+	    s.cj.getPos(0) +
+	    s.cj.getPos(3) + "\n" +
+	    s.cj.getPos(1) + " " +
+	    s.cj.getPos(1) + "\n" + 
+	    s.cj.getPos(4) +
+	    s.cj.getPos(0) +
+	    s.cj.getPos(5)
 	);
 
-    }
+	String[] cadena = new String[] {
+	    "AAAAAAAAAAAAXXAAA\n" +
+	    "AAAAAAAAAAAAXXAAA\n" +
+	    "AAAAAAAAAAAAXXAAA\n" +
+	    "AAAAAAAAAAAAXXAAA\n",
+	    "BBBBBBBBBBBBBXXBB\n" +
+	    "BBBBBBBBBBBBBXXBB\n" +
+	    "BBBBBBBBBBBBBXXBB\n" +
+	    "BBBBBBBBBBBBBBXXB\n",
+	    "CCCCCCCCCCXXXXCC\n" +
+	    "CCCCCCCCCCXXXXCC\n" +
+	    "CCCCCCCCXXCCXXCC\n" +
+	    "CCCCCCCCCXXCXXCC\n",
+	    "DDDDDDDDDDXXDDDDC\n" +
+	    "DDDDDDDDDXXDDDDDC\n" +
+	    "DDDDDDDDXXDDDDDDC\n" +
+	    "DDDDDDDXXDDDDDDdD\n" 
+	};
 
-    public static void verExplicacionCaja(){
-	System.out.println(explicacionCaja);
-    }
 
-    public void setCaracteresCaja(int numeroCaja){
-	if( numeroCaja > 0 && numeroCaja < 10 ){
-	    switch( numeroCaja ){
-		case 1:
-		caracteresCaja = caracteresCaja1;
-		break;
-
-		case 2:
-		caracteresCaja = caracteresCaja2;
-		break;
-
-		case 3:
-		caracteresCaja = caracteresCaja3;
-		break;
-
-		case 4:
-		caracteresCaja = caracteresCaja4;
-		break;
-
-		case 5:
-		caracteresCaja = caracteresCaja5;
-		break;
-
-		case 6:
-		caracteresCaja = caracteresCaja6;
-		break;
-
-		case 7:
-		caracteresCaja = caracteresCaja7;
-		break;
-
-		case 8:
-		caracteresCaja = caracteresCaja8;
-		break;
-
-		case 9:
-		caracteresCaja = caracteresCaja9;
-		break;
-
-	    }
-	}else{
-	    System.out.println("No se ha encontrado la caja especificada");
+	for(int i = 1; i < 10; ++i){
+	    System.out.println("Caja: " + i);
+	    s.cj.setCaracteresCaja(i);
+	    System.out.println(
+		    s.dibujaCaja(cadena,
+		    new int[] {17,17,16,17})
+	    );
 	}
-    }
+	s.cj.setCaracteresCaja(8);
+	s.cj.setCaracteresCaja(
+		' ', s.cj.getCaracterCaja(8,1),
+		s.cj.getCaracterCaja(8,3), s.cj.getCaracterCaja(8,2),
+		s.cj.getCaracterCaja(8,5), s.cj.getCaracterCaja(8,4),
+		' ',' ',' ',' ',
+		s.cj.getPos(10)
+	);
 
-    public static void main(String[] args){
-	new Escritor(1).verCaracteresCaja();
-	new Escritor(2).verCaracteresCaja();
-	new Escritor(3).verCaracteresCaja();
-	new Escritor(4).verCaracteresCaja();
-	new Escritor(5).verCaracteresCaja();
-	new Escritor(6).verCaracteresCaja();
-	new Escritor(7).verCaracteresCaja();
-	new Escritor(8).verCaracteresCaja();
-	new Escritor(9).verCaracteresCaja();
+	System.out.println(
+		s.dibujaCaja(cadena,
+		new int[] {17,17,16,17})
+	);
+	
     }
 }

@@ -255,12 +255,46 @@ public class Caja {
 	return ' ';
     }
 
+    public char getPos(int pos){
+	if( pos > -1 && pos < 11 ){
+	    return caracteresCaja[pos];
+	}else{
+	    return 0;
+	}
+    }
+
     public void setCaracteresCaja(int numeroCaja){
 	try{
 	    usarCajaPredefinida(numeroCaja);
 	}catch(NoExisteCajaException nece){
 	    System.out.println(nece.getMessage());
 	}
+    }
+
+    public void setCaracteresCaja(
+	    char barraHorizontal,
+	    char barraVertical,
+	    char esquinaSuperiorIzquierda,
+	    char esquinaSuperiorDerecha,
+	    char esquinaInferiorIzquierda,
+	    char esquinaInferiorDerecha,
+	    char barraLateralIzquierda,
+	    char barraLateralDerecha,
+	    char barraSuperior,
+	    char barraInferior,
+	    char cruzCentral
+    ){
+	caracteresCaja[0] = barraHorizontal;
+	caracteresCaja[1] = barraVertical;
+	caracteresCaja[2] = esquinaSuperiorIzquierda;
+	caracteresCaja[3] = esquinaSuperiorDerecha;
+	caracteresCaja[4] = esquinaInferiorIzquierda;
+	caracteresCaja[5] = esquinaInferiorDerecha;
+	caracteresCaja[6] = barraLateralIzquierda;
+	caracteresCaja[7] = barraLateralDerecha;
+	caracteresCaja[8] = barraSuperior;
+	caracteresCaja[9] = barraInferior;
+	caracteresCaja[10] = cruzCentral;
     }
 
     public void setCaracteresCaja(){

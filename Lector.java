@@ -14,53 +14,80 @@ import java.util.Scanner;
 // mensajes de error de dicha clase
 public final class Lector{
     private static final Scanner escaner = new Scanner(System.in);
-    private static String prompt = "> ";
+    private String p; // prefijo
+    private String prompt; // Cadena que indica al usuario que debe ingresar algo
 
-    public static int pedirEntero(){
+    public Lector(){
+	p = "";
+	prompt = "> ";
+    }
+    
+    public Lector(String p){
+	this.p = p;
+	prompt = "> ";
+    }
+
+    public Lector(String p, String prompt){
+	this.p = p;
+	this.prompt = prompt;
+    }
+
+    public int pedirEntero(){
 	return leerEntero("","");
     }
-    public static int pedirEntero(String mensajeInicial){
+
+    public int pedirEntero(String mensajeInicial){
 	return leerEntero(mensajeInicial + "\n","");
     }
-    public static int pedirEntero(
+
+    public int pedirEntero(
 	    String mensajeInicial,
 	    String mensajeError
     ){
 	return leerEntero(mensajeInicial + "\n", mensajeError + "\n"); 
     }
-    public static double pedirDoble(){
+
+    public double pedirDoble(){
 	return leerDoble("","");
     }
-    public static double pedirDoble(String mensajeInicial){
+
+    public double pedirDoble(String mensajeInicial){
 	return leerDoble(mensajeInicial + "\n", "");
     }
-    public static double pedirDoble(
+
+    public double pedirDoble(
 	    String mensajeInicial,
 	    String mensajeError
     ){
 	return leerDoble(mensajeInicial + "\n", mensajeError + "\n");
     }
-    public static String pedirCadena(){
+
+    public String pedirCadena(){
 	return leerCadena("","");
     }
-    public static String pedirCadena(String mensajeInicial){
+
+    public String pedirCadena(String mensajeInicial){
 	return leerCadena(mensajeInicial + "\n", "");
     }
-    public static String pedirCadena(
+
+    public String pedirCadena(
 	    String mensajeInicial,
 	    String mensajeError
     ){
 	return leerCadena(mensajeInicial + "\n", mensajeError + "\n");
     }
-    public static String pedirPalabra(){
+
+    public String pedirPalabra(){
 	String palabra = pedirCadena();
 	return palabra.substring(0,palabra.indexOf(' '));
     }
-    public static String pedirPalabra(String mensajeInicial){
+
+    public String pedirPalabra(String mensajeInicial){
 	String palabra = pedirCadena(mensajeInicial);
 	return palabra.substring(0,palabra.indexOf(' '));
     }
-    public static String pedirPalabra(
+
+    public String pedirPalabra(
 	String mensajeInicial,
 	String mensajeError
     ){
@@ -68,13 +95,13 @@ public final class Lector{
 	return palabra.substring(0,palabra.indexOf(' '));
     }
 
-    private static int leerEntero(
+    private int leerEntero(
 	    String mensajeInicial, 
 	    String mensajeError
     ){
 	boolean noLeido = true;
 	int entero = 0;
-	System.out.print(mensajeInicial);
+	System.out.print(p + mensajeInicial);
 	do{
 	    System.out.print(prompt);
 	    try{
@@ -89,13 +116,13 @@ public final class Lector{
 	return entero;
     }
 
-    private static double leerDoble(
+    private double leerDoble(
 	    String mensajeInicial, 
 	    String mensajeError
     ){
 	boolean noLeido = true;
 	double doble = 0;
-	System.out.print(mensajeInicial);
+	System.out.print(p + mensajeInicial);
 	do{
 	    System.out.print(prompt);
 	    try{
@@ -110,13 +137,13 @@ public final class Lector{
 	return doble;
     }
 
-    private static String leerCadena(
+    private String leerCadena(
 	    String mensajeInicial, 
 	    String mensajeError
     ){
 	boolean noLeido = true;
 	String cadena = "";
-	System.out.print(mensajeInicial);
+	System.out.print(p + mensajeInicial);
 	do{
 	    System.out.print(prompt);
 	    try{

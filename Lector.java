@@ -18,7 +18,7 @@ public final class Lector{
     private String prompt; // Cadena que indica al usuario que debe ingresar algo
 
     public Lector(){
-	p = "";
+	p = " ";
 	prompt = "> ";
     }
     
@@ -33,33 +33,102 @@ public final class Lector{
     }
 
     public int pedirEntero(){
-	return leerEntero("","");
+	return leerEntero(
+		"",
+		"",
+		Integer.MIN_VALUE,
+		Integer.MAX_VALUE
+	);
     }
 
     public int pedirEntero(String mensajeInicial){
-	return leerEntero(mensajeInicial + "\n","");
+	return leerEntero(
+		mensajeInicial + "\n",
+		"",
+		Integer.MIN_VALUE,
+		Integer.MAX_VALUE
+	);
     }
 
     public int pedirEntero(
 	    String mensajeInicial,
 	    String mensajeError
     ){
-	return leerEntero(mensajeInicial + "\n", mensajeError + "\n"); 
+	return leerEntero(
+		mensajeInicial + "\n",
+		mensajeError + "\n",
+		Integer.MIN_VALUE,
+		Integer.MAX_VALUE
+	); 
+    }
+
+    public int pedirEntero(
+	    String mensajeInicial,
+	    String mensajeError,
+	    int min,
+	    int max
+    ){
+	return leerEntero(
+		mensajeInicial + "\n",
+		mensajeError + "\n",
+		min,
+		max
+	);
+    }
+
+    public int pedirEntero(
+	    int min,
+	    int max
+    ){
+	return leerEntero("", "", min, max);
     }
 
     public double pedirDoble(){
-	return leerDoble("","");
+	return leerDoble(
+		"",
+		"",
+		Double.MIN_VALUE,
+		Double.MAX_VALUE
+	);
     }
 
     public double pedirDoble(String mensajeInicial){
-	return leerDoble(mensajeInicial + "\n", "");
+	return leerDoble(
+		mensajeInicial + "\n",
+		"",
+		Double.MIN_VALUE,
+		Double.MAX_VALUE
+	);
     }
 
     public double pedirDoble(
 	    String mensajeInicial,
 	    String mensajeError
     ){
-	return leerDoble(mensajeInicial + "\n", mensajeError + "\n");
+	return leerDoble(
+		mensajeInicial + "\n",
+		mensajeError + "\n",
+		Double.MIN_VALUE,
+		Double.MAX_VALUE
+	);
+    }
+
+    public double pedirDoble(
+	    String mensajeInicial,
+	    String mensajeError,
+	    Double min,
+	    Double max
+    ){
+	return leerDoble(
+		mensajeInicial + "\n",
+		mensajeError + "\n",
+		min,
+		max
+	);
+    }
+
+    public double pedirDoble(double min, double max){
+	return leerDoble("","", min, max);
     }
 
     public String pedirCadena(){
@@ -97,7 +166,9 @@ public final class Lector{
 
     private int leerEntero(
 	    String mensajeInicial, 
-	    String mensajeError
+	    String mensajeError,
+	    int min,
+	    int max
     ){
 	boolean noLeido = true;
 	int entero = 0;
@@ -106,7 +177,9 @@ public final class Lector{
 	    System.out.print(prompt);
 	    try{
 		entero = escaner.nextInt();
-		noLeido = false;
+		if( entero >= min && entero <= max ){
+		    noLeido = false;
+		}
 	    }catch(Exception e){
 		System.out.print(mensajeError);
 	    }
@@ -118,7 +191,9 @@ public final class Lector{
 
     private double leerDoble(
 	    String mensajeInicial, 
-	    String mensajeError
+	    String mensajeError,
+	    double min,
+	    double max
     ){
 	boolean noLeido = true;
 	double doble = 0;
@@ -127,7 +202,9 @@ public final class Lector{
 	    System.out.print(prompt);
 	    try{
 		doble = escaner.nextInt();
-		noLeido = false;
+		if( doble >= min && doble <= max ){
+		    noLeido = false;
+		}
 	    }catch(Exception e){
 		System.out.print(mensajeError);
 	    }
